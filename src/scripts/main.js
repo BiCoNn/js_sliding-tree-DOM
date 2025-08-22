@@ -1,21 +1,27 @@
 'use strict';
 
-const style = document.createElement('style');
-
-style.textContent = `
-.active {
-display: none;}`;
-document.head.append(style);
-
-// write code here
 const tree = document.querySelector('.tree');
 
-tree.addEventListener('click', function () {
-  const target = event.target.closest('LI');
+tree.addEventListener('click', (e) => {
+  const li = e.target;
+  const span = document.createElement('span');
+  const header = li.firstChild;
+  const headerText = header.textContent.trim();
+  const innerUL = li.querySelector('ul');
 
-  if (target.childElementCount !== 0) {
-    const innertarger = target.querySelector('UL');
+  if (e.target.tagName === 'LI') {
+    span.textContent = headerText;
+    li.insertBefore(span, header);
 
-    innertarger.classList.toggle('active');
+    if (innerUL) {
+      innerUL.hidden = true;
+      header.remove();
+    }
+  }
+
+  if (e.target.tagName === 'SPAN') {
+    li.insertBefore(span, headerText);
+    innerUL.hidden = false;
+    span.remove();
   }
 });
